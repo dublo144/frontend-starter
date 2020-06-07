@@ -4,10 +4,10 @@ import NoMatch from '../noMatch/';
 import Content3 from '../content3/';
 import Scrape from '../scrape/Scrape.jsx';
 import Jokes from '../jokes/';
-import Home from '../home/';
+import Home from '../../pages/home/Home.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Unauthorized from '../unauthorized/';
-import Count from '../../pages/Count.jsx';
+import Count from '../../pages/count/Count.jsx';
 
 const Routes = () => {
   return (
