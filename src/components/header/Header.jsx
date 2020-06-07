@@ -58,6 +58,10 @@ export default function Header() {
           Content 3
         </Menu.Item>
 
+        <Menu.Item as={NavLink} exact to='/counter' name='counter'>
+          Counter
+        </Menu.Item>
+
         {handleLoginLogOut()}
       </Container>
     </Menu>

@@ -7,6 +7,7 @@ import Jokes from '../jokes/';
 import Home from '../home/';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Unauthorized from '../unauthorized/';
+import Count from '../../pages/Count.jsx';
 
 const Routes = () => {
   return (
@@ -25,6 +26,10 @@ const Routes = () => {
 
       <Route path='/content3'>
         <Content3 />
+      </Route>
+
+      <Route path='/counter'>
+        <Count />
       </Route>
 
       <Route path='/unauthorized'>
