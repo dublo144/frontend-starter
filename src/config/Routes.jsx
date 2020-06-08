@@ -1,13 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import NoMatch from '../noMatch/';
-import Content3 from '../content3/';
-import Scrape from '../scrape/Scrape.jsx';
-import Jokes from '../jokes/';
-import Home from '../../pages/home/Home.jsx';
-import ProtectedRoute from './ProtectedRoute.jsx';
-import Unauthorized from '../unauthorized/';
-import Count from '../../pages/count/Count.jsx';
+import NoMatch from '../containers/noMatch';
+import Content3 from '../containers/content3';
+import Scrape from '../containers/scrape/Scrape.jsx';
+import Jokes from '../containers/jokes';
+import Home from '../containers/home/Home.jsx';
+import ProtectedRoute from '../components/routes/ProtectedRoute.jsx';
+import Unauthorized from '../containers/unauthorized';
+import Count from '../containers/counter/Count.jsx';
 
 const Routes = () => {
   return (
