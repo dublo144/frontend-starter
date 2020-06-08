@@ -80,6 +80,10 @@ export default function Header() {
           Counter
         </Menu.Item>
 
+        <Menu.Item as={NavLink} to='/asyncUsers' name='asyncUsers'>
+          Async users
+        </Menu.Item>
+
         {handleLoginLogOut()}
       </Container>
     </Menu>

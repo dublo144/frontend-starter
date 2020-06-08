@@ -9,6 +9,8 @@ const countReducer = (state, action) => {
       return { count: state.count + 1 };
     case 'DECREMENT':
       return { count: state.count - 1 };
+    case 'SET_COUNT':
+      return { count: action.payload };
     default: {
       throw new Error(`Unhandled type: ${action.type}`);
     }

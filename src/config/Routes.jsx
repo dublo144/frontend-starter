@@ -8,6 +8,8 @@ import Home from '../containers/home/Home.jsx';
 import ProtectedRoute from '../components/routes/ProtectedRoute.jsx';
 import Unauthorized from '../containers/unauthorized';
 import Count from '../containers/counter/Count.jsx';
+import AsyncDispatch from '../containers/asyncDispatch/AsyncDispatch.jsx';
+import { AsyncProvider } from '../contexts/AsyncContext.jsx';
 
 const Routes = () => {
   return (
@@ -30,6 +32,12 @@ const Routes = () => {
 
       <Route path='/counter'>
         <Count />
+      </Route>
+
+      <Route path='/asyncUsers'>
+        <AsyncProvider>
+          <AsyncDispatch />
+        </AsyncProvider>
       </Route>
 
       <Route path='/unauthorized'>
