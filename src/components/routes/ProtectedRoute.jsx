@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth.jsx';
+import { useAuthState } from '../../contexts/AuthContext.jsx';
 
 const ProtectedRoute = ({ children, authenticatedRoles, ...rest }) => {
-  const {
-    user: { isLoggedIn, roles }
-  } = useAuth();
+  // const {
+  //   user: { isLoggedIn, roles }
+  // } = useAuth();
+  const { isLoggedIn, roles } = useAuthState();
   return (
     <Route
       {...rest}

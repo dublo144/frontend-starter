@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth.jsx';
+import { signIn, useAuthDispatch } from '../../contexts/AuthContext.jsx';
 import { Form, Button } from 'semantic-ui-react';
+import { useAuthState } from '../../contexts/AuthContext.jsx';
 
 const LoginForm = ({ hideModal }) => {
-  const { signIn, isLoading } = useAuth();
+  // const { signIn, isLoading } = useAuth();
+  const { status } = useAuthState();
+  const dispatch = useAuthDispatch();
+
   const [loginCredentials, setLoginCredentials] = useState({
     loginUsername: '',
     loginPassword: ''
@@ -11,7 +15,11 @@ const LoginForm = ({ hideModal }) => {
 
   const handleLogin = (evt) => {
     evt.preventDefault();
-    signIn(loginCredentials.loginUsername, loginCredentials.loginPassword);
+    signIn(
+      loginCredentials.loginUsername,
+      loginCredentials.loginPassword,
+      dispatch
+    );
     hideModal();
   };
 
@@ -49,7 +57,7 @@ const LoginForm = ({ hideModal }) => {
         id='loginBtn'
         content='Login'
         primary
-        loading={isLoading}
+        loading={status === 'PENDING'}
         onClick={handleLogin}
         size='large'
       />

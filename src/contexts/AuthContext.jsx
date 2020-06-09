@@ -1,5 +1,6 @@
 import React from 'react';
 import { apiUtils } from '../utils/apiUtils';
+import { getUserAndRoles } from '../utils/JwtTokenParser';
 
 const AuthStateContext = React.createContext();
 const AuthDispatchContext = React.createContext();
@@ -50,20 +51,21 @@ const reducer = (state, { type, payload }) => {
   }
 };
 
-const signIn = async (username, password, dispatch) => {
+const signIn = async (_username, password, dispatch) => {
   dispatch({ type: 'SIGN_IN' });
   try {
     const options = apiUtils.makeOptions('POST', {
-      username: username,
+      username: _username,
       password: password
     });
     const res = await apiUtils.fetchData('/login', options);
+    const { username, roles } = getUserAndRoles(res.token);
     dispatch({
       type: 'SIGN_IN_SUCCESS',
       payload: {
-        username: res.username,
+        username: username,
         jwtToken: res.token,
-        roles: res.roles
+        roles: roles
       }
     });
   } catch (error) {
@@ -71,8 +73,25 @@ const signIn = async (username, password, dispatch) => {
   }
 };
 
+const init = () => {
+  const token = localStorage.getItem('jwtToken');
+  console.log('Init runs');
+  if (token) {
+    const { username, roles } = getUserAndRoles(token);
+    return {
+      ...initialState,
+      roles: roles,
+      jwtToken: token,
+      username: username,
+      isLoggedIn: true
+    };
+  } else {
+    return initialState;
+  }
+};
+
 const AuthProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, initialState, init);
   return (
     <AuthStateContext.Provider value={state}>
       <AuthDispatchContext.Provider value={dispatch}>
@@ -91,7 +110,7 @@ const useAuthState = () => {
 };
 
 const useAuthDispatch = () => {
-  const context = React.useContext(AuthStateContext);
+  const context = React.useContext(AuthDispatchContext);
   if (context === undefined) {
     throw new Error('useAuthDispatch must be used within a AuthProvider');
   }
