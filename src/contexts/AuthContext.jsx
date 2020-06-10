@@ -23,6 +23,7 @@ const initialState = {
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
+    // Sign in
     case 'SIGN_IN': {
       return { ...state, status: status.PENDING };
     }
@@ -39,6 +40,16 @@ const reducer = (state, { type, payload }) => {
     }
     case 'SIGN_IN_FAILED':
       return { status: status.REJECTED, error: payload.error };
+
+    // Sign up
+    case 'SIGN_UP':
+      return { ...state, status: status.PENDING };
+    case 'SIGN_UP_SUCCESS':
+      return { ...state, status: status.RESOLVED };
+    case 'SIGN_UP_FAILED':
+      return { ...state, status: status.REJECTED, error: payload.error };
+
+    // Sign out
     case 'SIGN_OUT': {
       localStorage.removeItem('jwtToken');
       return {
@@ -73,9 +84,22 @@ const signIn = async (_username, password, dispatch) => {
   }
 };
 
+const signUp = async (_username, password, dispatch) => {
+  dispatch({ type: 'SIGN_UP' });
+  try {
+    const opts = apiUtils.makeOptions('POST', {
+      username: _username,
+      password: password
+    });
+    await apiUtils.fetchData('/login/create', opts);
+    dispatch({ type: 'SIGN_UP_SUCCESS' });
+  } catch (error) {
+    dispatch({ type: 'SIGN_UP_FAILED', payload: error });
+  }
+};
+
 const init = () => {
   const token = localStorage.getItem('jwtToken');
-  console.log('Init runs');
   if (token) {
     const { username, roles } = getUserAndRoles(token);
     return {
@@ -117,4 +141,4 @@ const useAuthDispatch = () => {
   return context;
 };
 
-export { AuthProvider, useAuthState, useAuthDispatch, signIn };
+export { AuthProvider, useAuthState, useAuthDispatch, signIn, signUp };

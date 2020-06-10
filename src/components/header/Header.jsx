@@ -47,7 +47,6 @@ export default function Header() {
 
           <NewModal
             open={openModal}
-            headerMessage={'Login'}
             handleCloseModal={() => setOpenModal(false)}
           >
             <LoginModalForm hideModal={() => setOpenModal(false)} />
