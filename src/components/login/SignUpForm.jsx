@@ -1,98 +1,94 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { Button, Form } from 'semantic-ui-react';
-import { useAuth } from '../../hooks/useAuth.jsx';
-import { useHistory } from 'react-router-dom';
-import { apiUtils } from '../../utils/apiUtils';
-import { backendUrl } from '../../config/settings';
+import {
+  signUp,
+  useAuthDispatch,
+  useAuthState
+} from '../../contexts/AuthContext.jsx';
 
-const SignUpForm = () => {
-  const { signIn, isLoading } = useAuth();
-  const init = { username: '', password: '', password2: '' };
-  const signUpCredentials = useRef(init);
-  const [isSamePassword, setIsSamePassword] = useState(false);
-  const history = useHistory();
+const SignUpForm = ({ hideModal }) => {
+  const dispatch = useAuthDispatch();
+  const state = useAuthState();
 
-  const handleSignUp = async (evt) => {
-    evt.preventDefault();
-    const opt = apiUtils.makeOptions('POST', {
-      username: signUpCredentials.current.username,
-      password: signUpCredentials.current.password
-    });
-    const res = await fetch(`${backendUrl}/login/create`, opt);
-    const json = await res.json();
-    if (json.username !== null && json.token !== null) {
-      signIn(
-        signUpCredentials.current.username,
-        signUpCredentials.current.password
-      );
-      history.push('/');
-    } else {
-      alert(json.message);
-    }
+  const initialCredentials = {
+    username: '',
+    password: '',
+    confirm: ''
   };
+
+  const [credentials, setCredentials] = React.useState(initialCredentials);
+  const [pwMatch, setPwMatch] = React.useState();
 
   const onChange = (evt) => {
-    signUpCredentials.current[evt.target.id] = evt.target.value;
-    comparePassword();
+    setCredentials({ ...credentials, [evt.target.id]: evt.target.value });
   };
 
-  const comparePassword = () => {
-    if (
-      signUpCredentials.current.password.length === 0 ||
-      signUpCredentials.current.password2.length === 0
-    ) {
-      setIsSamePassword(false);
+  const onBlur = () => {
+    if (credentials.password === credentials.confirm) {
+      setPwMatch(true);
     } else {
-      setIsSamePassword(
-        signUpCredentials.current.password ===
-          signUpCredentials.current.password2
-      );
+      setPwMatch(false);
     }
+  };
+
+  const handleSubmit = () => {
+    signUp(credentials.username, credentials.password, dispatch);
+    setCredentials(initialCredentials);
+    hideModal();
   };
 
   return (
     <Form size='large'>
-      <Form.Input
-        fluid
-        icon='user'
-        iconPosition='left'
-        placeholder='Username'
-        id='username'
-        onChange={onChange}
-        value={signUpCredentials.username}
-        label='Username'
-      />
-      <Form.Input
-        fluid
-        icon='lock'
-        iconPosition='left'
-        placeholder='Password'
-        type='password'
-        id='password'
-        onChange={onChange}
-        value={signUpCredentials.password}
-        label='Password'
-      />
-      <Form.Input
-        fluid
-        icon='lock'
-        iconPosition='left'
-        placeholder='Password'
-        type='password'
-        id='password2'
-        onChange={onChange}
-        value={signUpCredentials.password2}
-        label='Repeat Password'
-        error={!isSamePassword}
-      />
+      <Form.Field required>
+        <label>Username</label>
+        <Form.Input
+          icon='user'
+          iconPosition='left'
+          placeholder='Username'
+          id='username'
+          loading={state.status === 'pending'}
+          onChange={onChange}
+          value={credentials.username}
+        />
+      </Form.Field>
+      <Form.Field required>
+        <label>Password</label>
+        <Form.Input
+          fluid
+          icon='lock'
+          iconPosition='left'
+          placeholder='Password'
+          type='password'
+          id='password'
+          loading={state.status === 'pending'}
+          onChange={onChange}
+          value={credentials.password}
+        />
+      </Form.Field>
+      <Form.Field required>
+        <label>Repeat Password</label>
+        <Form.Input
+          fluid
+          icon='lock'
+          iconPosition='left'
+          placeholder='Password'
+          type='password'
+          id='confirm'
+          loading={state.status === 'pending'}
+          onChange={onChange}
+          onBlur={onBlur}
+          value={credentials.confirm}
+          error={pwMatch === false}
+        />
+      </Form.Field>
       <Button
         primary
         fluid
-        loading={isLoading}
-        onClick={handleSignUp}
+        loading={state.status === 'pending'}
+        onClick={handleSubmit}
         size='large'
         id='signUpBtn'
-        disabled={!isSamePassword}
+        disabled={pwMatch === false}
       >
         Sign Up
       </Button>

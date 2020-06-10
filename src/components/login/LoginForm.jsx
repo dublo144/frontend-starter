@@ -4,7 +4,6 @@ import { Form, Button } from 'semantic-ui-react';
 import { useAuthState } from '../../contexts/AuthContext.jsx';
 
 const LoginForm = ({ hideModal }) => {
-  // const { signIn, isLoading } = useAuth();
   const { status } = useAuthState();
   const dispatch = useAuthDispatch();
 
