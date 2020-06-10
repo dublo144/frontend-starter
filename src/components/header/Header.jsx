@@ -5,11 +5,11 @@ import { useAuth } from '../../hooks/useAuth.jsx';
 import NewModal from '../utils/NewModal.jsx';
 import LoginModalForm from '../login/LoginModalForm.jsx';
 import Logout from '../login/Logout.jsx';
+import { useAuthState } from '../../contexts/AuthContext.jsx';
 
 export default function Header() {
-  const {
-    user: { isLoggedIn, name }
-  } = useAuth();
+  const { isLoggedIn, username } = useAuthState();
+
   const [openModal, setOpenModal] = useState(false);
 
   const handleLoginLogOut = () => {
@@ -18,8 +18,8 @@ export default function Header() {
         <Button
           as={NavLink}
           id='userpageBtn'
-          to={`/user/${name}`}
-          content={name}
+          to={`/user/${username}`}
+          content={username}
           icon='user'
           primary
           style={{ marginRight: '0.5em' }}
