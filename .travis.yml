@@ -1,0 +1,44 @@
+language: node_js
+#long term servicing version
+node_js:
+  - lts/*
+# ubuntu 18.04 bionic
+dist: bionic
+env:
+  global:
+    #enable firefox headless mode for faster automated UI testing
+    - MOZ_HEADLESS=1
+addons:
+  #installs firefox
+  firefox: latest
+  #installs sonarcloud
+  sonarcloud:
+    organization: 'dublo144'
+    token:
+      secure: '694228e77060b5b8ff71260c91aa2fbe64bde137'
+  apt:
+    packages:
+      #Cypress dependency on linux
+      - libgconf-2-4
+cache:
+  directories:
+    #Cypress cache
+    - '~/.cache'
+install:
+  #Like npm install but used in automated environments to make sure it does a clean install of dependencies and it can be significantly faster. (you must have a package-lock.json)
+  - npm ci
+
+script:
+  #start and wait for webpack dev server
+  - npm run start:ci & wait-on http://localhost:3000
+  #automated UI tests which records testing to cypress dashboard
+  - npm run cy:ci:test
+  #sonar analyze code from repo and coverage from cypress
+  - sonar-scanner
+  - npm run build
+  #Deploy will only run on master branch. Deploys to surge - must have provided login details on travis-org/travis.com for this to work.
+deploy:
+  provider: surge
+  project: './build/'
+  domain: https://madsbrandt-frontendstarter.surge.sh
+  skip_cleanup: true

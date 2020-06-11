@@ -74,9 +74,9 @@ const signIn = async (_username, password, dispatch) => {
     dispatch({
       type: 'SIGN_IN_SUCCESS',
       payload: {
-        username: username,
+        username,
         jwtToken: res.token,
-        roles: roles
+        roles
       }
     });
   } catch (error) {
@@ -98,8 +98,9 @@ const signUp = async (_username, password, dispatch) => {
   }
 };
 
-const init = () => {
+const init = (initialState) => {
   const token = localStorage.getItem('jwtToken');
+
   if (token) {
     const { username, roles } = getUserAndRoles(token);
     return {
