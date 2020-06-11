@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Container, Button } from 'semantic-ui-react';
-import { useAuth } from '../../hooks/useAuth.jsx';
 import NewModal from '../utils/NewModal.jsx';
 import LoginModalForm from '../login/LoginModalForm.jsx';
 import Logout from '../login/Logout.jsx';

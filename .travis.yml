@@ -32,7 +32,7 @@ script:
   #start and wait for webpack dev server
   - npm run start:ci & wait-on http://localhost:3000
   #automated UI tests which records testing to cypress dashboard
-  - npm run cy:ci:test
+  # - npm run cy:ci:test
   #sonar analyze code from repo and coverage from cypress
   - sonar-scanner
   - npm run build
