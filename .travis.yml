@@ -15,7 +15,7 @@ addons:
   sonarcloud:
     organization: 'dublo144'
     token:
-      secure: '694228e77060b5b8ff71260c91aa2fbe64bde137'
+      secure: 'A9nECSplQwzy9f9dJNLc+7aNqUCbwQGCh1opuDiqmehSO/1r4YDIkIMhxGxKiru0fmypOvmOw+vqOj3K8GxyB93Br3fJq+rcBKKhVt8vV4CLR5GPNn10W6VbU/ZUGZyX/fZYHilYdPCpgzdOOKAcWgJANnGvynzQx3syNK/wf4hN8fW5L+iKPKEzcTyQ0J4K2FyuU47dDTnUXElea5YehR6bLuKO+yfmF33Lr6OSKtwQOCKMWEd0dF6GUirrNF43GFP3Si+HpXouBWEYD2st+GO3cIFy/9Z3v3CDJ3E05avRKieFx90xutAE1uM99NknKSRzOPP+IBM5xAmjnBddKHP2xCtmjnZJZr3ycpn3TEYfb37RmC9Se+H0x3nOvCVzWDjJYVnPImFP+8V/73TKyh0hsBRQZurfua8vf+rYPf7NEWT4b3l6uYMNPW1H+p/ARyKxqhvcc3aq3LsCTnMT3zxsMTlQwwkBb8hf55e9QcRyscHnlCWNsVEmW0kGRdrXBUeYwzXHSUHj5r8A191bGqGCF8y4xsjIzYd/5/fb5T1Xu78HiwNkJhkM5OQi+m0qrDIBBZAW2YGI0swYZE6Qp+/FUJLe8NcRa6Nne7vWjtSYgZcSHQdfhM2I0849rI6u7H9mi+A05DgY0PIbTUyX+lHJmy0RRY1QGNSpKml3Fh8='
   apt:
     packages:
       #Cypress dependency on linux
