@@ -14,6 +14,7 @@ addons:
   #installs sonarcloud
   sonarcloud:
     organization: 'dublo144'
+    # Add the token in the Repo Settings on Travis as SONAR_TOKEN
   apt:
     packages:
       #Cypress dependency on linux
